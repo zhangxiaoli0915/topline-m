@@ -8,6 +8,8 @@ import {
   CellGroup
 
 } from 'vant'
+// 加载注册Vant模块
+import './utils/register-vant'
 
 Vue.config.productionTip = false
 Vue.use(Button)
