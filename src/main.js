@@ -10,6 +10,7 @@ import {
 } from 'vant'
 // 加载注册Vant模块
 import './utils/register-vant'
+import './styles/index.less'
 
 Vue.config.productionTip = false
 Vue.use(Button)
