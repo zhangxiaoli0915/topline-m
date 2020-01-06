@@ -11,6 +11,7 @@ import {
 // 加载注册Vant模块
 import './utils/register-vant'
 import './styles/index.less'
+import 'amfe-flexible'
 
 Vue.config.productionTip = false
 Vue.use(Button)
