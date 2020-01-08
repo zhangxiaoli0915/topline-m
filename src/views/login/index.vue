@@ -1,38 +1,29 @@
 <template>
   <div class="login-container">
-    <van-nav-bar title="登录"/>
+    <van-nav-bar title="登录" />
     <van-cell-group>
-  <van-field
-    v-model="user.mobile"
-    clearable
-    label="手机号"
-    placeholder="请输入手机号"
-  >
-  <i class="icon-shouji" slot="left-icon"></i>
-  </van-field>
-  <van-field
-  v-model="user.code"
-    label="验证码"
-    placeholder="请输入验证码"
-  >
-  <i class="icon-mima" slot="left-icon"></i>
+      <van-field v-model="user.mobile" clearable label="手机号" placeholder="请输入手机号">
+        <i class="icon-shouji" slot="left-icon"></i>
+      </van-field>
+      <van-field v-model="user.code" label="验证码" placeholder="请输入验证码">
+        <i class="icon-mima" slot="left-icon"></i>
 
-  <van-button
-       slot="button"
-       size="small"
-       type="primary"
-       round
-       >发送验证码</van-button></van-field>
-
-</van-cell-group>
-<div class="login-btn-container">
-  <van-button type="info" @click="onLogin">登录</van-button>
-</div>
+        <van-count-down v-if="isCountDownShow" slot="button" :time="1000*5" format="ss s"
+        @finish="isCountDownShow=false" />
+        <van-button v-else slot="button" size="small" type="primary" round
+        @click="onSendSmsCode"
+        >发送验证码</van-button>
+      </van-field>
+    </van-cell-group>
+    <div class="login-btn-container">
+      <van-button type="info" @click="onLogin">登录</van-button>
+    </div>
   </div>
 </template>
 <script>
 // import request from '@/utils/request'
-import { login } from '@/api/user'
+import { login, getSmsCode } from '@/api/user'
+
 export default {
   name: 'LoginPage',
   component: {},
@@ -42,12 +33,13 @@ export default {
       user: {
         mobile: '',
         code: ''
-      }
+      },
+      isCountDownShow: false // 是否显示倒计时
     }
   },
   methods: {
     async onLogin () {
-    //   // 获取表单数据
+      //   // 获取表单数据
       // const user = this.user
       //   // 表单验证
       //   // 请求登录
@@ -78,21 +70,33 @@ export default {
         console.log('登录失败', err)
         this.$toast.fail('登录失败')
       }
+    },
+    async onSendSmsCode () {
+      try {
+        const { mobile } = this.user
+        // 验证手机号是否有效
+        // 请求发送短信验证码
+        const res = await getSmsCode(mobile)
+        console.log(res)
+
+        // 显示倒计时
+        this.isCountDownShow = true
+      } catch (err) {
+        console.log(err)
+        this.$toast('请勿频繁操作')
+      }
     }
-
   }
-
 }
 </script>
 
 <style lang="less" scoped>
-.login-container{
-  .login-btn-container{
-    padding:20px;
-    .van-button{
+.login-container {
+  .login-btn-container {
+    padding: 20px;
+    .van-button {
       width: 100%;
     }
   }
 }
-
 </style>
