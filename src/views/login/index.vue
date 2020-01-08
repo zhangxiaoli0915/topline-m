@@ -15,7 +15,10 @@
     required
   />
 </van-cell-group>
-<van-button type="info">登录</van-button>
+<div class="login-btn-container">
+  <van-button type="info" >登录</van-button>
+</div>
+
   </div>
 </template>
 
@@ -31,6 +34,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+.login-container{
+  .login-btn-container{
+    padding:20px;
+    .van-button{
+      width: 100%;
+    }
+  }
+}
 
 </style>
