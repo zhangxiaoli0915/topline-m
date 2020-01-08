@@ -7,13 +7,17 @@
     clearable
     label="手机号"
     placeholder="请输入手机号"
-  />
+  >
+  <i class="icon-shouji" slot="left-icon"></i>
+  </van-field>
   <van-field
   v-model="user.code"
     label="验证码"
     placeholder="请输入验证码"
-    left-icon="contact"
-  ><van-button
+  >
+  <i class="icon-mima" slot="left-icon"></i>
+
+  <van-button
        slot="button"
        size="small"
        type="primary"
@@ -27,7 +31,8 @@
   </div>
 </template>
 <script>
-import request from '@/utils/request'
+// import request from '@/utils/request'
+import { login } from '@/api/user'
 export default {
   name: 'LoginPage',
   component: {},
@@ -54,17 +59,18 @@ export default {
       //   console.log(res)
       // }
       this.$toast.loading({
-        duration: 10,
+        duration: 0,
         forbidClick: true, // 是否禁止背景点击
         message: '登陆中···'
       })
       // console.log(res)
       try {
-        const res = await request({
-          method: 'POST',
-          url: '/app/v1_0/authorizations',
-          data: this.user
-        })
+        // const res = await request({
+        //   method: 'POST',
+        //   url: '/app/v1_0/authorizations',
+        //   data: this.user
+        // })
+        const res = await login(this.user)
         console.log('登录成功', res)
         // 提示成功
         this.$toast.success('登录成功')
