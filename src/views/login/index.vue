@@ -8,7 +8,7 @@
       <van-field v-model="user.code" label="验证码" placeholder="请输入验证码">
         <i class="icon-mima" slot="left-icon"></i>
 
-        <van-count-down v-if="isCountDownShow" slot="button" :time="1000*5" format="ss s"
+        <van-count-down v-if="isCountDownShow" slot="button" :time="1000*60" format="ss s"
         @finish="isCountDownShow=false" />
         <van-button v-else slot="button" size="small" type="primary" round
         @click="onSendSmsCode"
@@ -23,6 +23,7 @@
 <script>
 // import request from '@/utils/request'
 import { login, getSmsCode } from '@/api/user'
+// const a = 123
 
 export default {
   name: 'LoginPage',
@@ -83,6 +84,7 @@ export default {
         this.isCountDownShow = true
       } catch (err) {
         console.log(err)
+        this.isCountDownShow = false
         this.$toast('请勿频繁操作')
       }
     }
