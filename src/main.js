@@ -2,21 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import {
-  Button,
-  cell,
-  CellGroup
 
-} from 'vant'
 // 加载注册Vant模块
-import './utils/register-vant'
+// import './utils/register-vant'
+import './utils/register-vant.js'
 import './styles/index.less'
 import 'amfe-flexible'
 
 Vue.config.productionTip = false
-Vue.use(Button)
-  .use(cell)
-  .use(CellGroup)
 
 new Vue({
   router,
