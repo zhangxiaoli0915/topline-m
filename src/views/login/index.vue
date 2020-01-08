@@ -1,10 +1,19 @@
 <template>
   <div class="login-container">
     <van-nav-bar title="登录" />
-    <van-cell-group>
+    <!-- 表单验证
+    使用组件把要验证的表单包起来
+    name:配置字段的提示名称
+    v-slot="{errors}"获取校验失败的错误提示消息-->
+     <ValidationObserver>
+    <!-- <van-cell-group> -->
+      <ValidationProvider name="手机号" rules="required" v-slot="{errors}">
       <van-field v-model="user.mobile" clearable label="手机号" placeholder="请输入手机号">
         <i class="icon-shouji" slot="left-icon"></i>
       </van-field>
+      <span>{{errors[0]}}</span>
+      </ValidationProvider>
+      <ValidationProvider>
       <van-field v-model="user.code" label="验证码" placeholder="请输入验证码">
         <i class="icon-mima" slot="left-icon"></i>
 
@@ -14,7 +23,9 @@
         @click="onSendSmsCode"
         >发送验证码</van-button>
       </van-field>
-    </van-cell-group>
+      </ValidationProvider>
+    <!-- </van-cell-group> -->
+    </ValidationObserver>
     <div class="login-btn-container">
       <van-button type="info" @click="onLogin">登录</van-button>
     </div>
