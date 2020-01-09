@@ -5,13 +5,14 @@
     使用组件把要验证的表单包起来
     name:配置字段的提示名称
     v-slot="{errors}"获取校验失败的错误提示消息-->
-     <ValidationObserver>
+     <ValidationObserver ref="form">
     <!-- <van-cell-group> -->
-      <ValidationProvider name="手机号" rules="required" v-slot="{errors}">
+      <!-- <ValidationProvider name="手机号" rules="required" v-slot="{errors}"> -->
+        <ValidationProvider name="手机号" rules="required">
       <van-field v-model="user.mobile" clearable label="手机号" placeholder="请输入手机号">
         <i class="icon-shouji" slot="left-icon"></i>
       </van-field>
-      <span>{{errors[0]}}</span>
+      <!-- <span>{{errors[0]}}</span> -->
       </ValidationProvider>
       <ValidationProvider>
       <van-field v-model="user.code" label="验证码" placeholder="请输入验证码">
@@ -51,6 +52,12 @@ export default {
   },
   methods: {
     async onLogin () {
+      const success = await this.$refs.form.validate()
+      if (!success) {
+        console.log('表单验证失败')
+        return
+      }
+
       //   // 获取表单数据
       // const user = this.user
       //   // 表单验证
@@ -99,6 +106,7 @@ export default {
         this.$toast('请勿频繁操作')
       }
     }
+
   }
 }
 </script>
