@@ -8,13 +8,13 @@
      <ValidationObserver ref="form">
     <!-- <van-cell-group> -->
       <!-- <ValidationProvider name="手机号" rules="required" v-slot="{errors}"> -->
-        <ValidationProvider name="手机号" rules="required">
+        <ValidationProvider name="手机号" rules="required" immediate>
       <van-field v-model="user.mobile" clearable label="手机号" placeholder="请输入手机号">
         <i class="icon-shouji" slot="left-icon"></i>
       </van-field>
       <!-- <span>{{errors[0]}}</span> -->
       </ValidationProvider>
-      <ValidationProvider>
+      <ValidationProvider name="验证码" rules="required" immediate>
       <van-field v-model="user.code" label="验证码" placeholder="请输入验证码">
         <i class="icon-mima" slot="left-icon"></i>
 
@@ -55,6 +55,14 @@ export default {
       const success = await this.$refs.form.validate()
       if (!success) {
         console.log('表单验证失败')
+        // 获取失败的消息
+        const errors = this.$refs.form.errors
+        for (let key in errors) {
+          const item = errors[key]
+          if (item[0]) {
+            this.$toast(item[0])
+          }
+        }
         return
       }
 
