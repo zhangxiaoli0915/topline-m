@@ -35,6 +35,7 @@
 <script>
 // import request from '@/utils/request'
 import { login, getSmsCode } from '@/api/user'
+import { validate } from 'vee-validate'
 // const a = 123
 
 export default {
@@ -102,6 +103,14 @@ export default {
       try {
         const { mobile } = this.user
         // 验证手机号是否有效
+        const validateResult = await validate(mobile, 'required|mobile', {
+          name: '手机号'
+        })
+        if (!validateResult.valid) {
+          this.$toast(validateResult.errors[0])
+          return
+        }
+
         // 请求发送短信验证码
         const res = await getSmsCode(mobile)
         console.log(res)
