@@ -8,13 +8,13 @@
      <ValidationObserver ref="form">
     <!-- <van-cell-group> -->
       <!-- <ValidationProvider name="手机号" rules="required" v-slot="{errors}"> -->
-        <ValidationProvider name="手机号" rules="required" immediate>
+        <ValidationProvider name="手机号" rules="required|mobile" immediate>
       <van-field v-model="user.mobile" clearable label="手机号" placeholder="请输入手机号">
         <i class="icon-shouji" slot="left-icon"></i>
       </van-field>
       <!-- <span>{{errors[0]}}</span> -->
       </ValidationProvider>
-      <ValidationProvider name="验证码" rules="required" immediate>
+      <ValidationProvider name="验证码" rules="required|code" immediate>
       <van-field v-model="user.code" label="验证码" placeholder="请输入验证码">
         <i class="icon-mima" slot="left-icon"></i>
 
@@ -95,7 +95,7 @@ export default {
         this.$toast.success('登录成功')
       } catch (err) {
         console.log('登录失败', err)
-        this.$toast.fail('登录失败')
+        this.$toast.fail('登录失败,手机号或验证码不正确')
       }
     },
     async onSendSmsCode () {
