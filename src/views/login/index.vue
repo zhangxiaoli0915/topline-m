@@ -91,7 +91,10 @@ export default {
         //   data: this.user
         // })
         const res = await login(this.user)
+
         console.log('登录成功', res)
+        // 将登陆成功获取到的用户token相关数据存储到容器
+        this.$store.commit('setUser', res.data.data)
         // 提示成功
         this.$toast.success('登录成功')
       } catch (err) {
