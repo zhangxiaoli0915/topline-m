@@ -36,6 +36,11 @@ const routes = [
         component: () => import('@/views/my')
       }
     ]
+  },
+  {
+    path: '/user/:userId',
+    name: 'user',
+    component: () => import('@/views/user')
   }
 ]
 
