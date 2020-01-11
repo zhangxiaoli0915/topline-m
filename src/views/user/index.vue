@@ -1,6 +1,6 @@
 <template>
   <div class="user-container">
-    <van-nav-bar :title="user.name" left-arrow />
+    <van-nav-bar :title="user.name" left-arrow @click-left="$router.back()"/>
     <div class="user-info-container">
       <div class="row1">
         <van-image class="col1" fit="cover" round :src="user.photo" />
