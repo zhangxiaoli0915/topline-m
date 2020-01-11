@@ -25,3 +25,11 @@ export const getUserInfo = () => {
 
   })
 }
+// 获取指定登录用户信息
+export const getUserById = userId => {
+  return request({
+    method: 'GET',
+    url: `/app/v1_0/users/${userId}`
+
+  })
+}
