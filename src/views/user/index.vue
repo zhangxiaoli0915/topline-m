@@ -48,22 +48,24 @@
               :finished="finished"
               finished-text="没有更多了"
               @load="onLoad">
-      <van-cell v-for="item in list"
-                :key="item"
-                :title="item" />
+      <van-cell v-for="(article,index) in list"
+                :key="index"
+                :title="article.title" />
     </van-list>
   </div>
 </template>
 
 <script>
 import { getUserById } from '@/api/user'
+import { getArticlesByUser } from '@/api/article'
 export default {
   data () {
     return {
       user: {}, // 用户信息
       list: [],
       loading: false, // 控制上拉加载更多的loading
-      finished: false // 控制是否加载结束了
+      finished: false, // 控制是否加载结束了
+      page: 1 // 获取下一页数据的页码
     }
   },
   created () {
@@ -79,23 +81,37 @@ export default {
         this.$toast('获取用户数据失败')
       }
     },
-    onLoad () {
-      console.log('onload')
+    async onLoad () {
+    //   console.log('onload')
       // 异步更新数据
       // 1.请求获取数据
-      setTimeout(() => {
-        //   2.把数据添加到列表中
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-        // 加载状态结束
-        this.loading = false
+    //   setTimeout(() => {
+      //   2.把数据添加到列表中
 
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
-        }
-      }, 500)
+      // for (let i = 0; i < 10; i++) {
+      //   this.list.push(this.list.length + 1)
+      // }
+      const { data } = await getArticlesByUser(this.$route.params.userId, {
+        page: this.page,
+        per_page: 20
+
+      })
+
+      // 加载状态结束
+      // this.loading = false
+      const { results } = data.data
+      this.list.push(...results)
+
+      // 数据全部加载完成
+      //     if (this.list.length >= 40) {
+      //       this.finished = true
+      //     }
+      //   }, 500)
+      if (results.length) {
+        this.page++
+      } else {
+        this.finished = true
+      }
     }
   }
 
