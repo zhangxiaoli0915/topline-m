@@ -21,7 +21,7 @@
       round
       closeable
       close-icon-position="top-left">
-    <channel-edit/>
+    <channel-edit :user-channels="userChannels"/>
     </van-popup>
 
   </div>
