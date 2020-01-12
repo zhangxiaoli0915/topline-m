@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-      <van-nav-bar title="首页" />
+      <van-nav-bar title="首页" fixed/>
       <van-tabs v-model="active">
   <van-tab :title="channel.name" v-for="channel in userChannels" :key="channel.id"><article-list :channel="channel"/></van-tab>
   <!-- <van-tab title="标签 2">内容 2</van-tab>
@@ -47,6 +47,17 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+.home-container {
+  padding-top: 90px;
+  padding-bottom: 50px;
+}
+/deep/ .van-tabs__wrap {
+  position: fixed;
+  top: 46px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
 
 </style>
