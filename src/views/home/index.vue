@@ -2,6 +2,12 @@
   <div class="home-container">
       <van-nav-bar title="首页" fixed/>
       <van-tabs v-model="active">
+        <van-icon
+        class="wap-nav"
+        slot="nav-right"
+        name="wap-nav"
+        @click="isChannelEditShow = true"
+      />
   <van-tab :title="channel.name" v-for="channel in userChannels" :key="channel.id"><article-list :channel="channel"/></van-tab>
   <!-- <van-tab title="标签 2">内容 2</van-tab>
   <van-tab title="标签 3">内容 3</van-tab>
@@ -31,7 +37,7 @@ export default {
     return {
       active: 0,
       userChannels: [],
-      isChannelEditShow: true
+      isChannelEditShow: false
     }
   },
   created () {
@@ -64,6 +70,13 @@ export default {
   left: 0;
   right: 0;
   z-index: 1;
+}
+.wap-nav{
+  position: fixed;
+  right: 0;
+  line-height: 44px;
+  background: #fff;
+  opacity: .8;
 }
 
 </style>
