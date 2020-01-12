@@ -16,7 +16,8 @@ import {
   Dialog,
   List,
   Tab,
-  Tabs
+  Tabs,
+  PullRefresh
 } from 'vant'
 // 注册
 Vue.use(Button)
@@ -36,3 +37,4 @@ Vue.use(Button)
   .use(List)
   .use(Tab)
   .use(Tabs)
+  .use(PullRefresh)

@@ -1,11 +1,12 @@
 <template>
 <!-- <div>{{channel.name}}频道的文章列表</div> -->
    <div class="article-list">
+       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
     <van-list
       v-model="loading"
       :finished="finished"
       finished-text="没有更多了"
-      @load="onLoad"
+       @load="onLoad"
     >
       <van-cell
         v-for="(article,index) in list"
@@ -13,6 +14,8 @@
         :title="article.title"
       />
     </van-list>
+    </van-pull-refresh>
+
   </div>
 </template>
 
@@ -34,7 +37,10 @@ export default {
       list: [],
       loading: false,
       finished: false,
-      timestamp: null
+      timestamp: null,
+      //   count: 0,
+      isLoading: false
+
     }
   },
   computed: {},
@@ -42,7 +48,6 @@ export default {
   created () {},
   mounted () {},
   methods: {
-
     async onLoad () {
       // 请求获取数据
       const { data } = await getArticlesByChannel({
@@ -66,7 +71,29 @@ export default {
       } else {
         this.finished = true
       }
+    },
+    async onRefresh () {
+    //   setTimeout(() => {
+    //     this.$toast('刷新成功');
+    //     this.isLoading = false;
+    //     this.count++;
+    //   }, 1000);
+    // }
+    // 下拉刷新组件会自动开启loading
+    // 请求数据
+      const { data } = await getArticlesByChannel({
+        channel_id: this.channel.id, // 频道id
+        timestamp: Date.now(),
+        with_top: 1
+      })
+      // 将数据放到列表的顶部
+      const { results } = data.data
+      this.list.push(...results)
+      // 关闭下拉刷新的loading
+      this.loading = false
+      this.$toast(`更新了${results.length}条数据`)
     }
+
   }
 }
 </script>
