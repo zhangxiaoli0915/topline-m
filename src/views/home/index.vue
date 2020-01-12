@@ -20,18 +20,22 @@
       :style="{ height: '100%' }"
       round
       closeable
-      close-icon-position="top-left"
-    />
+      close-icon-position="top-left">
+    <channel-edit/>
+    </van-popup>
+
   </div>
 </template>
 
 <script>
 import { getUserChannels } from '@/api/channel'
 import ArticleList from './components/article-list'
+import ChannelEdit from './components/channel-edit'
 export default {
   // name: 'Homepage',
   components: {
-    ArticleList
+    ArticleList,
+    ChannelEdit
   },
   data () {
     return {
