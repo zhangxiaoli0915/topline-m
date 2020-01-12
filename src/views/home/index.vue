@@ -7,8 +7,15 @@
   <van-tab title="标签 3">内容 3</van-tab>
   <van-tab title="标签 4">内容 4</van-tab> -->
   <!-- <h2>{{channel.name}}的文章列表</h2> -->
-
 </van-tabs>
+<van-popup
+      v-model="isChannelEditShow"
+      position="bottom"
+      :style="{ height: '100%' }"
+      round
+      closeable
+      close-icon-position="top-left"
+    />
   </div>
 </template>
 
@@ -19,13 +26,12 @@ export default {
   // name: 'Homepage',
   components: {
     ArticleList
-
   },
   data () {
     return {
       active: 0,
-      userChannels: []
-      // channel: []
+      userChannels: [],
+      isChannelEditShow: true
     }
   },
   created () {
