@@ -50,6 +50,7 @@
 </template>
 <script>
 import { getAllChannels } from '@/api/channel'
+import { setItem } from '@/utils/storage'
 export default {
   props: {
     userChannels: {
@@ -112,6 +113,13 @@ export default {
       return channels
     }
 
+  },
+  watch: {
+    // 当 userChannels 发生变化，会调用该函数
+    userChannels (newVal) {
+      // 同步到本地存储
+      setItem('user-channels', newVal)
+    }
   }
   //   computed: {
   //     remainingChannels () {
