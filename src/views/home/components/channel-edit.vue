@@ -14,6 +14,7 @@
     v-for="(channel,index) in userChannels"
     :key="channel.id"
     :text="channel.name"
+    @click="onUserChannelClick(index)"
   >
   <van-icon v-show="isEditShow  && index !==0" slot="icon" name="close" />
   </van-grid-item>
@@ -58,7 +59,13 @@ export default {
     },
     onAdd (channel) {
       this.userChannels.push(channel)
+    },
+    onUserChannelClick (index) {
+      if (this.isEditShow && index !== 0) {
+        this.userChannels.splice(index, 1)
+      }
     }
+
   },
   computed: {
     remainingChannels () {
