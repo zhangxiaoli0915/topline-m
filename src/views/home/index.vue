@@ -24,6 +24,7 @@
     <!-- <channel-edit :user-channels="userChannels"/> -->
      <channel-edit
         :user-channels="userChannels"
+        :active="active"
         @switch="onChannelSwitch"
       />
     </van-popup>
