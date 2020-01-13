@@ -32,7 +32,7 @@ import { getUserChannels } from '@/api/channel'
 import ArticleList from './components/article-list'
 import ChannelEdit from './components/channel-edit'
 export default {
-  // name: 'Homepage',
+  name: 'Homepage',
   components: {
     ArticleList,
     ChannelEdit

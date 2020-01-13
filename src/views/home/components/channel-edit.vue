@@ -1,13 +1,19 @@
 <template>
   <div class="channel-edit">
       <van-cell class="channel-header" title="我的频道" :border="false">
-          <van-button size="mini" round type="danger" plain>编辑</van-button>
+      <van-button
+        size="mini"
+        round
+        type="danger"
+        plain
+      >编辑</van-button>
       </van-cell>
      <van-grid :gutter="10" clickable>
   <van-grid-item
     v-for="channel in userChannels"
     :key="channel.id"
     :text="channel.name"
+
   />
 </van-grid>
  <van-cell class="channel-header" title="推荐频道" :border="false">
@@ -15,9 +21,11 @@
       </van-cell>
      <van-grid :gutter="10" clickable>
   <van-grid-item
-    v-for="channel in remainingChannels"
-    :key="channel.id"
-    :text="channel.name"
+   v-for="channel in remainingChannels"
+        :key="channel.id"
+        :text="channel.name"
+        @click="onAdd(channel)"
+
   />
 </van-grid>
   </div>
@@ -33,32 +41,46 @@ export default {
   },
   data () {
     return {
-      allChannel: []
+      allChannels: []
     }
+  },
+  created () {
+    this.loadAllChannels()
   },
   methods: {
     async loadAllChannels () {
       const { data } = await getAllChannels()
       this.allChannels = data.data.channels
+    //   console.log(this.allChannels)
+    },
+    onAdd (channel) {
+      this.userChannels.push(channel)
     }
   },
   computed: {
     remainingChannels () {
       const channels = []
       const { allChannels, userChannels } = this
-      console.log(this)
-      //   allChannels.forEach(item => {
-      //     if (!userChannels.find(c => c.id === item.id)) {
-      //       channels.push(item)
-      //     }
-      //   })
-      for (let index in channels) {
-        console.log(index, channels[index])
-        channels.push(allChannels)
-      }
+      console.log(allChannels)
+      allChannels.forEach(item => {
+        console.log(item)
+        // 当前的遍历项是否属于我的频道，如果不是，那就收集到 channels
+        // userChannels 是否包含 item
+        // find 会遍历数组，它会对每个元素执行 c.id === item.id 条件判定
+        // 如果 true，则返回该元素，如果直到遍历结束都没有符合条件的元素，则返回 undefined
+        if (!userChannels.find(c => c.id === item.id)) {
+          channels.push(item)
+        }
+      })
+      //   for (let index in channels) {
+      //     console.log(index, channels[index])
+      //     channels.push(channels)
+      //   }
       return channels
     }
-  }//   computed: {
+
+  }
+  //   computed: {
   //     remainingChannels () {
   //       const channels = []
   //       const { allChannels, userChannels } = this
