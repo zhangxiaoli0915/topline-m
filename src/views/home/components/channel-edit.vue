@@ -15,13 +15,13 @@
       </van-cell>
      <van-grid :gutter="10" clickable>
   <van-grid-item
-    v-for="value in 8"
-    :key="value"
+    v-for="channel in remainingChannels"
+    :key="channel.id"
+    :text="channel.name"
   />
 </van-grid>
   </div>
 </template>
-
 <script>
 import { getAllChannels } from '@/api/channel'
 export default {
@@ -41,7 +41,36 @@ export default {
       const { data } = await getAllChannels()
       this.allChannels = data.data.channels
     }
-  }
+  },
+  computed: {
+    remainingChannels () {
+      const channels = []
+      const { allChannels, userChannels } = this
+      console.log(this)
+      //   allChannels.forEach(item => {
+      //     if (!userChannels.find(c => c.id === item.id)) {
+      //       channels.push(item)
+      //     }
+      //   })
+      for (let index in channels) {
+        console.log(index, channels[index])
+        channels.push(allChannels)
+      }
+      return channels
+    }
+  }//   computed: {
+  //     remainingChannels () {
+  //       const channels = []
+  //       const { allChannels, userChannels } = this
+  //       allChannels.forEach(item => {
+  //         if (!userChannels.find(c => c.id === item.id)) {
+  //           channels.push(item)
+  //         }
+  //       })
+  //       return channels
+  //     }
+
+  //   }
 }
 </script>
 
