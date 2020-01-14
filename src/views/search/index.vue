@@ -19,9 +19,10 @@
      <van-cell-group v-else-if="searchContent">
       <van-cell
        icon="search"
-       :title="item"
        v-for="(item,index) in suggestions"
-       :key="index" />
+       :key="index">
+       <div slot="title" v-html="highlight(item)"></div>
+      </van-cell>
     </van-cell-group>
     <!-- 历史记录 -->
 
@@ -71,6 +72,11 @@ export default {
     }
   },
   methods: {
+    highlight (str) {
+      const searchContent = this.searchContent
+      const reg = new RegExp(searchContent, 'gi')
+      return str.replace(reg, `<span style="color:#3296fa">${searchContent}</span>`)
+    },
     async onSearchInput () {
       const searchContent = this.searchContent
       if (!searchContent) {
