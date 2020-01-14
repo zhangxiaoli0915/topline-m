@@ -8,6 +8,7 @@
         @search="onSearch"
         @cancel="onCancel"
         @focus="isSearchResultShow=false"
+        @input="onSearchInput"
       />
     </form>
 
@@ -16,12 +17,11 @@
     <search-result v-if="isSearchResultShow"/>
     <!-- 联想建议 -->
      <van-cell-group v-else-if="searchContent">
-      <van-cell icon="search" title="单元格" />
-      <van-cell icon="search" title="单元格" />
-      <van-cell icon="search" title="单元格" />
-      <van-cell icon="search" title="单元格" />
-      <van-cell icon="search" title="单元格" />
-      <van-cell icon="search" title="单元格" />
+      <van-cell
+       icon="search"
+       :title="item"
+       v-for="(item,index) in suggestions"
+       :key="index" />
     </van-cell-group>
     <!-- 历史记录 -->
 
@@ -55,6 +55,7 @@
 
 <script>
 import SearchResult from './components/search-result'
+import { getSuggestions } from '@/api/search'
 export default {
   components: {
     SearchResult
@@ -65,10 +66,23 @@ export default {
       // list: [],
       // loading: false,
       // finished: false
-      isSearchResultShow: false// 是否展示搜索结果
+      isSearchResultShow: false, // 是否展示搜索结果
+      suggestions: []
     }
   },
   methods: {
+    async onSearchInput () {
+      const searchContent = this.searchContent
+      if (!searchContent) {
+        return
+      }
+      // 请求数据
+      const { data } = await getSuggestions(searchContent)
+      // 将数据添加到实例中
+      this.suggestions = data.data.options
+      // console.log(this.suggestions)
+      // 模板绑定
+    },
     onSearch () {
       console.log('onSearch')
       this.isSearchResultShow = true
