@@ -58,6 +58,7 @@
 import SearchResult from './components/search-result'
 import { getSuggestions } from '@/api/search'
 import { debounce } from 'lodash'
+import { getItem, setItem } from '@/utils/storage'
 export default {
   components: {
     SearchResult
@@ -70,8 +71,14 @@ export default {
       // finished: false
       isSearchResultShow: false, // 是否展示搜索结果
       suggestions: [],
-      searchHistories: [],
+      // searchHistories: [],  搜索历史记录
+      searchHistories: getItem('search-histories') || [],
       isDeleteShow: false
+    }
+  },
+  watch: {
+    searchHistories (val) {
+      setItem('serach-histories', val)
     }
   },
   methods: {
