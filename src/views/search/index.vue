@@ -6,7 +6,7 @@
         placeholder="请输入搜索关键词"
         show-action
         @search="onSearch(searchContent)"
-        @cancel="onCancel"
+        @cancel="$router.back()"
         @focus="isSearchResultShow=false"
         @input="onSearchInput"
       />
@@ -127,10 +127,10 @@ export default {
       searchHistories.unshift(q)
       // 展示搜索结果
       this.isSearchResultShow = true
-    },
-    onCancel () {
-      console.log('onCancel')
     }
+    // onCancel () {
+    //   console.log('onCancel')
+    // }
   }
 }
 </script>
