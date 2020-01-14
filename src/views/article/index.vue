@@ -77,7 +77,8 @@
       />
       <van-icon
         color="orange"
-        name="star"
+        :name="article.is_collected?'star':'star-o'"
+        @click="onCollect"
       />
       <van-icon
         color="#e5645f"
@@ -90,7 +91,10 @@
 </template>
 
 <script>
-import { getArticleById } from '@/api/article'
+import { getArticleById,
+  addCollect,
+  deleteCollect
+} from '@/api/article'
 export default {
   name: 'ArticlePage',
   components: {},
@@ -113,6 +117,28 @@ export default {
   },
   mounted () {},
   methods: {
+    async onCollect () {
+      this.$toast.loading({
+        duration: 0,
+        message: '操作中...',
+        forbidClick: true
+
+      })
+      try {
+        if (this.article.is_collected) {
+          await deleteCollect(this.articleId)
+          this.article.is_collected = false
+          this.$toast.success('取消收藏')
+        } else {
+          await addCollect(this.articleId)
+          this.article.is_collected = true
+          this.$toast.success('收藏成功')
+        }
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail('操作失败')
+      }
+    },
     async loadArticle () {
       this.loading = true
       try {
