@@ -5,7 +5,7 @@
         v-model="searchContent"
         placeholder="请输入搜索关键词"
         show-action
-        @search="onSearch"
+        @search="onSearch(searchContent)"
         @cancel="onCancel"
         @focus="isSearchResultShow=false"
         @input="onSearchInput"
@@ -23,7 +23,8 @@
       <van-cell
        icon="search"
        v-for="(item,index) in suggestions"
-       :key="index">
+       :key="index"
+       @click="onSearch(item)">
        <div slot="title" v-html="highlight(item)"></div>
       </van-cell>
     </van-cell-group>
@@ -36,22 +37,14 @@
       &nbsp;&nbsp;
       <span>完成</span>
     </van-cell>
-      <van-cell title="单元格">
-        <van-icon name="close"></van-icon>
-      </van-cell>
-      <van-cell title="单元格">
-        <van-icon name="close"></van-icon>
-      </van-cell>
-      <van-cell title="单元格">
-        <van-icon name="close"></van-icon>
-      </van-cell>
-      <van-cell title="单元格">
-        <van-icon name="close"></van-icon>
-      </van-cell>
-      <van-cell title="单元格">
+      <van-cell
+      :title="item"
+      v-for="(item,index) in searchHistories"
+      :key="index">
         <van-icon name="close"></van-icon>
       </van-cell>
     </van-cell-group>
+
     <!-- /历史记录 -->
 
   </div>
@@ -71,7 +64,8 @@ export default {
       // loading: false,
       // finished: false
       isSearchResultShow: false, // 是否展示搜索结果
-      suggestions: []
+      suggestions: [],
+      searchHistories: []
     }
   },
   methods: {
@@ -92,8 +86,21 @@ export default {
       // console.log(this.suggestions)
       // 模板绑定
     },
-    onSearch () {
-      console.log('onSearch')
+    // onSearch () {
+    //   console.log('onSearch')
+    //   this.isSearchResultShow = true
+    // },
+    onSearch (q) {
+      // 更新搜索文本框的数据
+      this.searchContent = q
+      // 记录搜索历史记录
+      const searchHistories = this.searchHistories
+      const index = searchHistories.indexOf(q)
+      if (index !== -1) {
+        searchHistories.splice(index)
+      }
+      searchHistories.unshift(q)
+      // 展示搜索结果
       this.isSearchResultShow = true
     },
     onCancel () {
