@@ -57,6 +57,7 @@
 <script>
 import SearchResult from './components/search-result'
 import { getSuggestions } from '@/api/search'
+import { debounce } from 'lodash'
 export default {
   components: {
     SearchResult
@@ -88,7 +89,10 @@ export default {
       const reg = new RegExp(searchContent, 'gi')
       return str.replace(reg, `<span style="color:#3296fa">${searchContent}</span>`)
     },
-    async onSearchInput () {
+    // async onSearchInput () {
+
+    // },
+    onSearchInput: debounce(async function () {
       const searchContent = this.searchContent
       if (!searchContent) {
         return
@@ -99,7 +103,7 @@ export default {
       this.suggestions = data.data.options
       // console.log(this.suggestions)
       // 模板绑定
-    },
+    }, 200),
     // onSearch () {
     //   console.log('onSearch')
     //   this.isSearchResultShow = true
