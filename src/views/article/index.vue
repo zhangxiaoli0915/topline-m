@@ -55,7 +55,7 @@
       </div> -->
       <div class="markdown-body" v-html="article.content"></div>
        <!-- 文章评论 -->
-    <article-comment/>
+    <article-comment :article-id="articleId"/>
     </div>
 
     <!-- /文章详情 -->

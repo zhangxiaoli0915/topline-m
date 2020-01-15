@@ -1,5 +1,6 @@
 <template>
 <div class="article-comments">
+    {{articleId}}
   <van-list
   v-model="loading"
   :finished="finished"
@@ -7,38 +8,54 @@
   @load="onLoad"
 >
   <van-cell
-    v-for="item in list"
-    :key="item"
-    :title="item"
-  />
+    v-for="(item,index) in list"
+    :key="index"
+  >1</van-cell>
 </van-list>
 </div>
 </template>
 
 <script>
+import { getComments } from '@/api/comment'
 export default {
+  name: 'article-comment',
+  props: {
+    articleId: {
+      type: [Number, String, Object],
+      required: true
+    }
+  },
   data () {
     return {
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      offset: null,
+      limit: 20
     }
   },
   methods: {
-    onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-        // 加载状态结束
-        this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
-        }
-      }, 500)
+    async onLoad () {
+    // 请求获取数据
+      const { data } = await getComments({
+        type: 'a',
+        source: this.articleId,
+        offset: this.offset,
+        limit: this.limit
+      })
+      // 将数据添加到列表中
+      //   console.log(data)
+      const { results } = data.data
+      console.log(results)
+      this.list.push(...results)
+      // 关闭loading
+      this.loading = false
+      //   判断是否还有数据
+      if (results.length) {
+        this.offset = data.data.last_id
+      } else {
+        this.finished = true
+      }
     }
   }
 
