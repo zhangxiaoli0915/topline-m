@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './utils/validation.js'
+import './utils/datetime'
 
 // 加载注册Vant模块
 // import './utils/register-vant'
