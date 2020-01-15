@@ -36,7 +36,12 @@
             <p class="time">{{article.pubdate}}</p>
           </div>
         </div>
-        <van-button class="follow-btn" type="info" size="small" round>+ 关注</van-button>
+        <van-button
+        class="follow-btn"
+        :type="article.is_followed?'default':'info'"
+        size="small"
+        round
+        >{{article.is_followed?'已关注':'+关注'}}</van-button>
       </div>
       <!-- <div class="markdown-body">
         <p>作为战斗在业务一线的前端，要想少加班，就要想办法提高工作效率。这里提一个小点，我们在业务开发过程中，经常会重复用到日期格式化、url参数转对象、浏览器类型判断、节流函数等一类函数，这些工具类函数，基本上在每个项目都会用到，为避免不同项目多次复制粘贴的麻烦，我们可以统一封装，发布到npm，以提高开发效率。</p>
@@ -82,7 +87,8 @@
       />
       <van-icon
         color="#e5645f"
-        name="good-job"
+        :name="article.attitude===1?'good-job':'good-job-o'"
+        @click="onLike"
       />
       <van-icon class="share-icon" name="share" />
     </div>
@@ -93,7 +99,9 @@
 <script>
 import { getArticleById,
   addCollect,
-  deleteCollect
+  deleteCollect,
+  addLike,
+  deleteLike
 } from '@/api/article'
 export default {
   name: 'ArticlePage',
@@ -117,6 +125,27 @@ export default {
   },
   mounted () {},
   methods: {
+    async onLike () {
+      this.$toast.loading({
+        duration: 0,
+        message: '操作中...',
+        forbidClick: true
+      })
+      try {
+        if (this.article.attitude === 1) {
+          await deleteLike(this.articleId)
+          this.article.attitude = -1
+          this.$toast.success('取消点赞')
+        } else {
+          await deleteLike(this.articleId)
+          this.article.attitude = 1
+          this.$toast.success('点赞成功')
+        }
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail('点赞失败')
+      }
+    },
     async onCollect () {
       this.$toast.loading({
         duration: 0,
