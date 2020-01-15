@@ -54,7 +54,10 @@
         <p>使用 Object.prototype.toString 配合闭包，通过传入不同的判断类型来返回不同的判断函数，一行代码，简洁优雅灵活（注意传入 type 参数时首字母大写）</p>
       </div> -->
       <div class="markdown-body" v-html="article.content"></div>
+       <!-- 文章评论 -->
+    <article-comment/>
     </div>
+
     <!-- /文章详情 -->
 
     <!-- 加载失败提示 -->
@@ -101,6 +104,7 @@
 
 <script>
 import { addFollow, deleteFollow } from '@/api/user'
+import ArticleComment from './components/article-comment'
 // mapState：映射获取 state 数据
 import { mapState } from 'vuex'
 import { getArticleById,
@@ -111,7 +115,9 @@ import { getArticleById,
 } from '@/api/article'
 export default {
   name: 'ArticlePage',
-  components: {},
+  components: {
+    ArticleComment
+  },
   props: {
     articleId: {
       type: String,
