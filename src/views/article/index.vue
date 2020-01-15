@@ -42,6 +42,8 @@
         :type="article.is_followed?'default':'info'"
         size="small"
         round
+        :loading="isFollowLoading"
+        @click="onFollow"
         >{{article.is_followed?'已关注':'+关注'}}</van-button>
       </div>
       <!-- <div class="markdown-body">
@@ -98,6 +100,7 @@
 </template>
 
 <script>
+import { addFollow, deleteFollow } from '@/api/user'
 // mapState：映射获取 state 数据
 import { mapState } from 'vuex'
 import { getArticleById,
@@ -118,7 +121,8 @@ export default {
   data () {
     return {
       article: {}, // 文章详情
-      loading: true// 文章加载中的loading状态
+      loading: true, // 文章加载中的loading状态
+      isFollowLoading: false// 关注按钮的loading状态
     }
   },
   computed: {
@@ -130,6 +134,24 @@ export default {
   },
   mounted () {},
   methods: {
+    async onFollow () {
+      this.isFollowLoading = true
+      try {
+        const authorId = this.article.aut_id
+        // 如果已关注，则取消关注
+        if (this.article.is_followed) {
+          await deleteFollow(authorId)
+        } else {
+          // 添加关注
+          await addFollow(authorId)
+        }
+        this.article.is_followed = !this.article.is_followed
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail('操作失败')
+      }
+      this.isFollowLoading = false
+    },
     async onLike () {
       this.$toast.loading({
         duration: 0,

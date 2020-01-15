@@ -12,7 +12,7 @@ request.defaults.transformResponse = [function (data) {
     // return jsonBig.parse(data)
     return jsonBig.parse(data)
   } catch (err) {
-    console.log('转换失败', err)
+    // console.log('转换失败', err)
     return {}
   }
 }]
