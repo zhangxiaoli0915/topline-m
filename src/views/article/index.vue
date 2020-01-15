@@ -37,6 +37,7 @@
           </div>
         </div>
         <van-button
+        v-if="!user||article.aut_id!==user.id"
         class="follow-btn"
         :type="article.is_followed?'default':'info'"
         size="small"
@@ -97,6 +98,8 @@
 </template>
 
 <script>
+// mapState：映射获取 state 数据
+import { mapState } from 'vuex'
 import { getArticleById,
   addCollect,
   deleteCollect,
@@ -118,7 +121,9 @@ export default {
       loading: true// 文章加载中的loading状态
     }
   },
-  computed: {},
+  computed: {
+    ...mapState(['user'])
+  },
   watch: {},
   created () {
     this.loadArticle()
