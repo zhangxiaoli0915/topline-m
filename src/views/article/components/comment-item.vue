@@ -1,5 +1,6 @@
 <template>
-   <van-cell class="comment-item">
+  <!-- <div class="comment-item">评论项</div> -->
+  <van-cell class="comment-item">
     <!-- 评论作者头像 -->
     <van-image
       slot="icon"
@@ -8,7 +9,8 @@
       :src="comment.aut_photo"
     />
     <!-- 评论作者头像 -->
-     <!-- 评论作者名字 -->
+
+    <!-- 评论作者名字 -->
     <span style="color: #466b9d;" slot="title">{{ comment.aut_name }}</span>
     <!-- 评论作者名字 -->
 
@@ -16,12 +18,10 @@
       <!-- 评论内容 -->
       <p style="color: #363636;">{{ comment.content }}</p>
       <!-- /评论内容 -->
-
       <p>
         <!-- 评论发布日期 -->
         <span style="margin-right: 10px;">{{ comment.pubdate | relativeTime }}</span>
         <!-- 评论发布日期 -->
-
         <van-button
           size="mini"
           type="default"
@@ -35,12 +35,27 @@
       />
       <span>{{ comment.like_count ? comment.like_count : '赞' }}</span>
     </div>
-   </van-cell>
+  </van-cell>
 </template>
 
 <script>
 export default {
-
+  name: 'CommentItem',
+  components: {},
+  props: {
+    comment: {
+      type: Object,
+      required: true
+    }
+  },
+  data () {
+    return {}
+  },
+  computed: {},
+  watch: {
+  },
+  created () {},
+  methods: {}
 }
 </script>
 

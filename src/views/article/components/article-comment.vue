@@ -8,23 +8,23 @@
   @load="onLoad"
 >
   <!-- <van-cell -->
-    <comment-item
+    <Comment-item
     v-for="(item,index) in list"
     :key="index"
     :comment="item"
-  >1</comment-item>
+  />
 </van-list>
 </div>
 </template>
 
 <script>
 import { getComments } from '@/api/comment'
-import CommentItem from './comment-item'
+import CommentItem from './comment-item.vue'
 export default {
+  name: 'ArticleComment',
   components: {
     CommentItem
   },
-  name: 'article-comment',
   props: {
     articleId: {
       type: [Number, String, Object],

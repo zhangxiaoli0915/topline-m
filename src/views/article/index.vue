@@ -80,6 +80,7 @@
         type="default"
         round
         size="small"
+        @click="isPostShow=true"
       >写评论</van-button>
       <van-icon
         class="comment-icon"
@@ -99,6 +100,14 @@
       <van-icon class="share-icon" name="share" />
     </div>
     <!-- /底部区域 -->
+    <!-- 发布文章评论 -->
+    <van-popup
+  v-model="isPostShow"
+  position="bottom"
+  :style="{ height: '20%' }"
+/>
+<!-- /发布文章评论 -->
+
   </div>
 </template>
 
@@ -128,7 +137,8 @@ export default {
     return {
       article: {}, // 文章详情
       loading: true, // 文章加载中的loading状态
-      isFollowLoading: false// 关注按钮的loading状态
+      isFollowLoading: false, // 关注按钮的loading状态
+      isPostShow: false// 发布评论的弹层显示状态
     }
   },
   computed: {
