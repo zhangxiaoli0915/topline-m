@@ -105,13 +105,16 @@
   v-model="isPostShow"
   position="bottom"
   :style="{ height: '20%' }"
-/>
+>
+<post-comment/>
+    </van-popup>
 <!-- /发布文章评论 -->
 
   </div>
 </template>
 
 <script>
+import PostComment from './components/post-comment'
 import { addFollow, deleteFollow } from '@/api/user'
 import ArticleComment from './components/article-comment'
 // mapState：映射获取 state 数据
@@ -125,7 +128,8 @@ import { getArticleById,
 export default {
   name: 'ArticlePage',
   components: {
-    ArticleComment
+    ArticleComment,
+    PostComment
   },
   props: {
     articleId: {
