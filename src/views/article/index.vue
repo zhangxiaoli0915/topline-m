@@ -106,10 +106,9 @@
   position="bottom"
   :style="{ height: '20%' }"
 >
-<post-comment/>
+<post-comment :article-id="articleId" v-model="postMessage" @click="onPost"/>
     </van-popup>
 <!-- /发布文章评论 -->
-
   </div>
 </template>
 
@@ -142,7 +141,8 @@ export default {
       article: {}, // 文章详情
       loading: true, // 文章加载中的loading状态
       isFollowLoading: false, // 关注按钮的loading状态
-      isPostShow: false// 发布评论的弹层显示状态
+      isPostShow: false, // 发布评论的弹层显示状态
+      postMessage: ''
     }
   },
   computed: {
@@ -154,6 +154,9 @@ export default {
   },
   mounted () {},
   methods: {
+    onPost () {
+      console.log('发布。。。')
+    },
     async onFollow () {
       this.isFollowLoading = true
       try {
