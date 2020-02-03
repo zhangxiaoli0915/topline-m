@@ -55,7 +55,10 @@
       </div> -->
       <div class="markdown-body" v-html="article.content"></div>
        <!-- 文章评论 -->
-    <article-comment :article-id="articleId"/>
+    <article-comment
+      ref="article-comment"
+      :article-id="articleId"
+      @click-reply="onReplyShow"/>
     </div>
 
     <!-- /文章详情 -->
@@ -106,13 +109,23 @@
   position="bottom"
   :style="{ height: '20%' }"
 >
-<post-comment :article-id="articleId" v-model="postMessage" @click="onPost"/>
+<post-comment :article-id="articleId" v-model="postMessage" @click-post="onPost"/>
     </van-popup>
 <!-- /发布文章评论 -->
+<!-- 评论回复 -->
+ <van-popup
+  v-model="isReplyShow"
+  position="bottom"
+  style="height:90%"
+>
+    评论回复
+    </van-popup>
+<!-- /评论回复 -->
   </div>
 </template>
 
 <script>
+import { addComment } from '@/api/comment'
 import PostComment from './components/post-comment'
 import { addFollow, deleteFollow } from '@/api/user'
 import ArticleComment from './components/article-comment'
@@ -142,7 +155,9 @@ export default {
       loading: true, // 文章加载中的loading状态
       isFollowLoading: false, // 关注按钮的loading状态
       isPostShow: false, // 发布评论的弹层显示状态
-      postMessage: ''
+      postMessage: '',
+      isReplyShow: false,
+      currentComment: {}// 点击恢复的那个评论项
     }
   },
   computed: {
@@ -154,8 +169,37 @@ export default {
   },
   mounted () {},
   methods: {
-    onPost () {
+    onReplyShow (comment) {
+      // 将点击回复所在的评论对象记录起来
+      this.currentComment = comment
+      // 展示回复的弹层
+      this.isReplyShow = true
+    },
+    async onPost () {
       console.log('发布。。。')
+      this.$toast.loading({
+        duration: 0,
+        message: '发布中。。。',
+        forbidClick: true
+      })
+      try {
+        const { data } = await addComment({
+          target: this.articleId,
+          content: this.postMessage
+        })
+        console.log(data)
+        this.$toast.success('发布成功')
+        // 清空文本框
+        this.postMessage = ''
+        // 关闭弹层
+        this.isPostShow = false
+        // 将数据添加到列表顶部
+        this.$refs['article-comment'].list.unshift(data.data.new_obj)
+        this.$toast.success('发布成功')
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail('发布失败')
+      }
     },
     async onFollow () {
       this.isFollowLoading = true

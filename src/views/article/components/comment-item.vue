@@ -9,7 +9,6 @@
       :src="comment.aut_photo"
     />
     <!-- 评论作者头像 -->
-
     <!-- 评论作者名字 -->
     <span style="color: #466b9d;" slot="title">{{ comment.aut_name }}</span>
     <!-- 评论作者名字 -->
@@ -25,6 +24,7 @@
         <van-button
           size="mini"
           type="default"
+          @click="$emit('click-reply',comment)"
         >回复 {{ comment.reply_count }}</van-button>
       </p>
     </div>
@@ -37,7 +37,6 @@
     </div>
   </van-cell>
 </template>
-
 <script>
 export default {
   name: 'CommentItem',

@@ -13,7 +13,6 @@
   <van-button
       class="post-btn"
       type="primary"
-      disabled
       size="small"
       @click="$emit('click-post')"
     >发布</van-button>
