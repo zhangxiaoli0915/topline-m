@@ -118,7 +118,8 @@
   position="bottom"
   style="height:90%"
 >
-    评论回复
+    <!-- 评论回复 -->
+    <comment-reply :comment="currentComment"/>
     </van-popup>
 <!-- /评论回复 -->
   </div>
@@ -137,11 +138,13 @@ import { getArticleById,
   addLike,
   deleteLike
 } from '@/api/article'
+import CommentReply from './components/comment-reply'
 export default {
   name: 'ArticlePage',
   components: {
     ArticleComment,
-    PostComment
+    PostComment,
+    CommentReply
   },
   props: {
     articleId: {
