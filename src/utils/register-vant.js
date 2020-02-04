@@ -20,7 +20,8 @@ import {
   PullRefresh,
   Popup,
   Search,
-  Loading
+  Loading,
+  ImagePreview
 } from 'vant'
 // 注册
 Vue.use(Button)
@@ -44,3 +45,4 @@ Vue.use(Button)
   .use(Popup)
   .use(Search)
   .use(Loading)
+  .use(ImagePreview)
