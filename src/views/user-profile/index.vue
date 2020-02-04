@@ -52,15 +52,21 @@
         @click-right="onUpdateName"
       />
       <div>
-        <!-- <van-field
-          v-model="message"
+        <!--
+          field 组件有一个 value 事件，该事件接收一个参数：输入框的值
+          在模板中 $event 表示事件参数，Vue 本身提供的
+          关于 $event 的参考链接：https://cn.vuejs.org/v2/guide/events.html#%E5%86%85%E8%81%94%E5%A4%84%E7%90%86%E5%99%A8%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95
+         -->
+        <van-field
+          :value="user.name"
+           @input="inputName = $event"
           rows="2"
           autosize
           type="textarea"
           maxlength="20"
           placeholder="请输入昵称"
           show-word-limit
-        /> -->
+        />
       </div>
     </van-popup>
     <!-- /修改用户昵称 -->
@@ -69,7 +75,10 @@
 </template>
 
 <script>
-import { getUserProfile, updateUserPhoto } from '@/api/user'
+import { getUserProfile,
+  updateUserPhoto,
+  updateUserProfile
+} from '@/api/user'
 // import { ImagePreview } from 'vant'
 export default {
   data () {
@@ -78,14 +87,18 @@ export default {
       isPreviewShow: false,
       images: [], // 预览的图片列表
       isEditNameShow: false,
-      message: '123'
-
+      //   message: '123'
+      inputName: ''
     }
   },
   created () {
     this.loadUserProfile()
   },
   methods: {
+    onInput (c) {
+      // console.log(c)
+      this.inputName = c
+    },
     async loadUserProfile () {
       try {
         const { data } = await getUserProfile()
@@ -159,10 +172,35 @@ export default {
       }
     //   根据响应结果执行后续处理
     },
-    onUpdateName () {
-      console.log('onUpdateName')
+    // onUpdateName () {
+    //   console.log('onUpdateName')
+    // }
+    // field: 要修改的数据字段
+    // value：数据值
+    async updateUserProfile (field, value) {
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: '更新中...',
+        forbidClick: true // 是否禁止背景点击
+      })
+      try {
+        await updateUserProfile({
+          [field]: value // 注意属性名使用中括号包裹，否则会当做字符串来使用而不是变量
+        })
+        this.$toast.success('更新成功')
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail('更新失败')
+      }
+    },
+    async onUpdateName () {
+      // 请求提交表单
+      await this.updateUserProfile('name', this.inputName)
+      // 更新视图
+      this.user.name = this.inputName
+      // 关闭弹层
+      this.isEditNameShow = false
     }
-
   },
   computed: {
     // 这里的目的主要是为了访问方便
