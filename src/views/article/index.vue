@@ -119,7 +119,8 @@
   style="height:90%"
 >
     <!-- 评论回复 -->
-    <comment-reply :comment="currentComment"/>
+    <!-- <comment-reply :comment="currentComment"/> -->
+    <comment-reply :comment="currentComment" :article-id="articleId"/>
     </van-popup>
 <!-- /评论回复 -->
   </div>
