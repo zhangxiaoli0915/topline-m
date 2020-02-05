@@ -5,8 +5,14 @@
     <!-- /导航栏 -->
 
     <van-tabs v-model="active">
-      <van-tab title="我的收藏">内容 1</van-tab>
-      <van-tab title="我的历史">内容 2</van-tab>
+      <!-- <van-tab title="我的收藏">内容 1</van-tab> -->
+      <van-tab title="我的收藏">
+          <collect-article/>
+      </van-tab>
+      <!-- <van-tab title="我的历史">内容 2</van-tab> -->
+      <van-tab title="我的历史">
+          <history-article/>
+      </van-tab>
       <van-tab title="我的作品">
         <user-article />
       </van-tab>
@@ -15,11 +21,15 @@
 </template>
 
 <script>
+import CollectArticle from './components/collect'
+import HistoryArticle from './components/history'
 import UserArticle from './components/article'
 export default {
   name: 'UserArticles',
   components: {
-    UserArticle
+    UserArticle,
+    CollectArticle,
+    HistoryArticle
   },
   data () {
     return {
