@@ -6,7 +6,18 @@
     @load="onLoad"
   >
     <!-- <van-cell v-for="item in list" :key="item" :title="item" /> -->
-    <van-cell v-for="(article,index) in list" :key="index" :title="article.title" />
+    <!-- <van-cell v-for="(article,index) in list" :key="index" :title="article.title" /> -->
+    <van-cell
+       v-for="(article,index) in list"
+       :key="index"
+       :title="article.title"
+       @click="$router.push({
+           name:'article',
+           params:{
+               articleId: article.art_id.toString()
+           }
+       })
+               " />
   </van-list>
 </template>
 
