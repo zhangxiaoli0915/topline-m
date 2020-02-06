@@ -44,6 +44,12 @@ const routes = [
 
   },
   {
+    path: '/user/chat',
+    name: 'user-chat',
+    component: () => import('@/views/user-chat')
+
+  },
+  {
     path: '/user/:userId',
     name: 'user',
     component: () => import('@/views/user')
